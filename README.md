@@ -1,1 +1,4 @@
-# advent-of-numba
+# advent-of-cuda
+
+Advent cuda attempt with cuda kernels
+
