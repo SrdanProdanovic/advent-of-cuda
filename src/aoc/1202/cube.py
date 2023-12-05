@@ -87,10 +87,9 @@ def cupy_way():
         inventory = cp.prod(inventory, axis=1)
         # print(f"inventory shape after mul: {cp.shape(inventory)}")
         sum = cp.sum(inventory, axis=0)
-        print (sum)
         assert sum == 66681
 
 for x in [part2, numpy_way, cupy_way]:
         # Measure the execution time using timeit
-        execution_time = timeit.timeit(x, number=1) * 1000
+        execution_time = timeit.timeit(x, number=50) * 1000
         print(f" {x.__name__} Exec Time: {execution_time} ms")
