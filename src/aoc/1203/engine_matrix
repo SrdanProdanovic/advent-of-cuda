@@ -1,0 +1,57 @@
+import re
+import os
+
+with open(os.path.join(os.getcwd(), 'src\\aoc\\1203\\input.txt'), 'r') as input:
+        lines = input.readlines()
+
+ROWS = len(lines)
+COLS = len(lines[0])
+adj_num = list()
+num_coord = dict()
+for row_id, line in enumerate(lines):
+        numbers = re.findall("\\d+", line)
+        matches  = re.finditer("\\d+", line)
+        num_ind = [ range (match.start(),match.end()) for match in matches]
+        for num, ind in zip(numbers, num_ind):
+               for i in ind:
+                    num_coord[f"[{row_id},{i}]"] = num
+
+g_ratio = 0
+for row_id, line in enumerate(lines):    
+        sym_reg = "[^.\\d\\n]"
+        matches  = re.finditer(sym_reg, line)        
+        sym_ind = [match.start() for match in matches]
+        for si in sym_ind:
+            si =  int(si)
+            added = list()
+            for x in [-1,0,1]:
+                if 0 > row_id + x > ROWS: continue
+                for y in [-1,0,1]:
+                    if 0 > si + y > COLS: continue
+                    num_cand_coord = "["+str(row_id + x)+","+str(si + y)+"]"
+                    if num_cand_coord in num_coord :
+                        num_added = int(num_coord.pop(num_cand_coord))
+                        if num_added not in added :
+                            adj_num.append(num_added)
+                            added.append(num_added)
+            print(added)
+            if len(added) == 2:
+                g_ratio += added[0]*added[1]   
+                        
+        # print(f"{symbols} : {sym_ind}")
+
+        # guardrail
+        # matches  = re.finditer(sym_reg, line)        
+        # for sym,match in zip(re.findall(sym_reg, line), matches):
+        #     diff = match.end() - match.start() 
+        #     assert diff > 1, f"multichar sym in {row_id} {sym}: {match.start()}, {match.end()} diff > 1, but diff is {diff} "
+
+        # if row_id == 15: break
+
+print(num_coord)
+print("\\n\\n")
+print(adj_num)
+print(f"sum = {sum(adj_num)}")
+# assert sum(adj_num) == 537832
+print(f"geare rationm = {g_ratio}")
+# assert g_ratio == 467835
