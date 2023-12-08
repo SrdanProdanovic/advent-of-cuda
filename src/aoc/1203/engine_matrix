@@ -24,17 +24,16 @@ for row_id, line in enumerate(lines):
         for si in sym_ind:
             si =  int(si)
             added = list()
-            for x in [-1,0,1]:
-                if 0 > row_id + x > ROWS: continue
-                for y in [-1,0,1]:
-                    if 0 > si + y > COLS: continue
-                    num_cand_coord = "["+str(row_id + x)+","+str(si + y)+"]"
+            for row_shift in [-1,0,1]:
+                if 0 > row_id + row_shift > ROWS: continue
+                for col_shift in [-1,0,1]:
+                    if 0 > si + col_shift > COLS: continue
+                    num_cand_coord = "["+str(row_id + row_shift)+","+str(si + col_shift)+"]"
                     if num_cand_coord in num_coord :
                         num_added = int(num_coord.pop(num_cand_coord))
                         if num_added not in added :
                             adj_num.append(num_added)
                             added.append(num_added)
-            print(added)
             if len(added) == 2:
                 g_ratio += added[0]*added[1]   
                         
@@ -49,7 +48,6 @@ for row_id, line in enumerate(lines):
         # if row_id == 15: break
 
 print(num_coord)
-print("\\n\\n")
 print(adj_num)
 print(f"sum = {sum(adj_num)}")
 # assert sum(adj_num) == 537832
